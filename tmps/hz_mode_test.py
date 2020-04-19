@@ -29,9 +29,9 @@ def solve_mode_hz(eps_vec):
     eps_vec_yy_inv = sp.diags(np.squeeze(eps_vec_yy_inv), shape=[N, N])
     dxepsydx = (Dxf.dot(eps_vec_yy_inv)).dot(Dxb)
     dyepsxdy = (Dyf.dot(eps_vec_xx_inv)).dot(Dyb)
-    A = (dxepsydx)*(C_0/omega)**2+sp.diags(np.ones((N,)))
+    A = sp.diags(np.squeeze(eps_r_input)).dot((dxepsydx)*(C_0/omega)**2)+sp.diags(np.squeeze(eps_r_input))
     guess_value = eps_vec.max()
-    vals, vecs = spl.eigs(A, sigma=1, v0=None, which='LM')
+    vals, vecs = spl.eigs(A, sigma=12, v0=None, which='LM')
     return vals, vecs
 eps_r_input=np.zeros((1, 250))
 eps_r_input[0, :50]=1.44**2
